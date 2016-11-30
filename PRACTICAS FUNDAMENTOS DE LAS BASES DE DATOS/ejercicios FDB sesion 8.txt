@@ -1,0 +1,94 @@
+--------------------------------------------------------------
+Fundamentos de las bases de datos sesión 8
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad B
+--------------------------------------------------------------
+create table TA ( a int, b int , primary key (a))engine=innodb;
+create table TB (c int, d int, primary key (c),
+foreign key (d) references TA (a) on delete cascade on update cascade)engine=innodb;
+create table TC (e int, f int, primary key (e),
+foreign key (f) references TB(c) on delete cascade on update cascade)engine=innodb;
+
+insert into TA values (1,10);
+insert into TA values (2,20);
+insert into TA values (3,30);
+insert into TB values (100,1);
+insert into TB values (200,1);
+insert into TB values (300,2);
+insert into TB values (400,null);
+insert into TC values (1000,100);
+insert into TC values (2000,100);
+insert into TC values (3000,null);
+delete from TA where a=2;
+update TA set a=15,b=10 where a=1;
+delete from TC where e=2000;
+delete from TA where a=3;
+delete from TB where c=100;
+delete from TC where e=3000;
+delete from TB where c=400;
+delete from TA where a=15;
+
+drop table TC, TB, TA;
+create table TA ( a int, b int , primary key (a))engine=innodb;
+create table TB (c int, d int, primary key (c),
+foreign key (d) references TA (a) on delete set null on update set null)engine=innodb;
+create table TC (e int, f int, primary key (e),
+foreign key (f) references TB(c) on delete set null on update set null)engine=innodb;
+
+insert into TA values (1,10);
+insert into TA values (2,20);
+insert into TA values (3,30);
+insert into TB values (100,1);
+insert into TB values (200,1);
+insert into TB values (300,2);
+insert into TB values (400,null);
+insert into TC values (1000,100);
+insert into TC values (2000,100);
+insert into TC values (3000,null);
+delete from TA where a=2;
+update TA set a=15 where a=1;
+update TB set c=150 where c=100;
+
+
+drop table TC, TB, TA;
+create table TB (c int, d int, primary key (c),
+foreign key (d) references TA (a) on delete cascade)engine=innodb;
+create table TC (e int, f int, primary key (e),
+foreign key (f) references TB(c) on update set null)engine=innodb;
+
+insert into TA values (1,10);
+insert into TA values (2,20);
+insert into TA values (3,30);
+insert into TB values (100,1);
+insert into TB values (200,1);
+insert into TB values (300,2);
+insert into TB values (400,null);
+insert into TC values (1000,100);
+insert into TC values (2000,100);
+insert into TC values (3000,null);
+delete from TA where a=1;
+delete from TA where a=2;
+update TB set c=170, d=1 where c=100;
+delete from TA where a=1;
+
+--------------------------------------------------------------
+
+--------------------------------------------------------------
+Examen SQL-E
+--------------------------------------------------------------
+-- 1.- (6 puntos)
+-- a) Crea una tabla: TA(a int, b int, c int) CP(a)
+ create table TA (a int, b int, c int, primary key (a))engine=innodb;
+-- b) Inserta en TA las filas: (a=3,b=100,c=10), (a=2,b=200,c=20);
+ insert into TA values(3,100,10);
+ insert into TA values(2,200,20);
+-- c) Crea una tabla: TB(d int, e int) CP(d) CAj(d)>>TA, borrados propagar, modificaciones rechazar
+ create table TB(d int, e int, primary key (d), foreign key (d) references TA(a)on delete cascade)engine=innodb;
+-- d) Inserta en TB el contenido de TA, almacenando en TB.d los valores de la columna TA.a, y en TB.e
+--   el valor 1000, con una única instrucción a partir de una consulta sobre TA.
+
+insert into TB(d,e) select a,1000 from TA; 
+
+
+--------------------------------------------------------------

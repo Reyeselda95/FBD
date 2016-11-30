@@ -1,0 +1,64 @@
+﻿Ejercicios FDB S04
+
+------------------------------------------------------------------------------------
+Dificultad A
+------------------------------------------------------------------------------------
+select cod, nombre
+from articulo where pvp between 400 and 500;
+select cod, nombre
+from articulo where pvp in(415,129,1259,3995);
+select codp, nombre
+from provincia where nombre not in('Huelva', 'Sevilla', 'Asturias', 'Barcelona');
+select codp
+from provincia where nombre like 'Alicante%';
+select cod, nombre, pvp
+from articulo where marca like 'S%';
+select *
+from usuario where email like '%@eps.ua.es';
+select email
+from usuario where codpos not in(02012, 02018, 02032);
+select nombre
+from articulo where nombre like '%EOS%';
+select tipo, focal
+from objetivo where montura like 'Canon%';
+select nombre 
+from articulo where pvp > 100 and pvp <= 200;
+select nombre
+from articulo where pvp between 100 and 300;
+select nombre
+from articulo a, camara c where nombre not like 'S%' and a.cod=c.cod;
+select cod
+from tv where panel like '%LCD' or panel like '%LED';
+
+-------------------------------------------------------------------------------------
+Dificultad B
+-------------------------------------------------------------------------------------
+select tv.cod, nombre, resolucion
+from tv, articulo where pantalla not between 22 and 42 and tv.cod = articulo.cod;
+select t.cod, nombre
+from tv t, articulo a where panel like '%LED' and a.cod=t.cod and pvp<=1000;
+select distinct cod, nombre
+from ptienea , articulo where pack=cod;
+select *
+from cesta c, stock s where c.articulo=s.articulo and entrega='Descatalogado';
+select a.cod, nombre, pvp
+from articulo a, camara c where c.tipo like '%compacta%' and a.cod= c.cod;
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------
+Examen SQL-B(18 febrero 2014)
+-------------------------------------------------------------------------------------
+Eliminando duplicados, marcas de los cámaras de las que se desconoce su pvp, ordenado 
+descendentemente
+-------------------------------------------------------------------------------------
+select distinct marca 
+from articulo a, camara c
+where a.cod=c.cod and pvp is null order by marca desc;

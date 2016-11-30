@@ -1,0 +1,51 @@
+------------------------------------------------------------
+Fundamentos de las bases de datos sesión 6
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad A
+--------------------------------------------------------------
+create table XX( col1 integer, col2 char(3), primary key(col1))engine=innodb;
+insert into XX  values (1,'AA');
+insert into XX values ('BB', 2);
+insert into XX values (2, 'BB');
+select * from XX;
+drop table XX;
+create table YY (col1 integer, col2 char(2), col3 varchar(10), primary key(col1, col2))engine=innodb;
+insert into YY values (1,'AA','primera');
+insert into YY values (2,'AA','segunda');
+insert into YY values (2,'BB','tercera');
+insert into YY values (1,'AA','cuarta');
+insert into YY values (null,null,'quinta');
+insert into YY values (null,'CC','sexta');
+insert into YY values (3,nul,'septima');
+insert into YY values (0,'','octava');
+insert into YY values (3,'AA', null);
+
+create table T1(a int, b int, c int, primary key(a)) engine=innodb;
+create table T2(a int, d int, e int, primary key(d), foreign key (a) references T1(a)) engine=innodb;
+insert into T1 values(1,10,100)
+insert into T1 values(null,20,null)
+insert into T1 values(2,20,null)
+insert into T1 values(3,null,300)
+insert into T2 values(2,null,null)
+insert into T2 values(2,20,null)
+insert into T1 values(1,20,200)
+insert into T1 values(4,10,100)
+insert into T1 values(2,30,230)
+--------------------------------------------------------------
+
+
+--------------------------------------------------------------
+Examen SQL D
+--------------------------------------------------------------
+-- 1.- (1 puntos)
+-- a) Crea una tabla: mitabla(a entero, b entero) CP(a)
+create table mitabla (a int, b int, primary key (a)) engine=innodb;
+-- b) Inserta una fila: (10,nulo);
+insert into mitabla values (10, null);
+-- c) Inserta una fila: (20,nulo);
+insert into mitabla values (20, null);
+-- d) modifica todos los b a 30 en una única instrucción.
+update mitabla set b=30;
+-- e) Borra la tabla.
+drop table mitabla;

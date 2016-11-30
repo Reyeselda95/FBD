@@ -1,0 +1,77 @@
+--------------------------------------------------------------
+Fundamentos de las bases de datos sesión 5
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad A
+--------------------------------------------------------------
+select cod, nombre
+from articulo
+where marca is null;
+select cod, nombre, marca
+from articulo;
+select numPedido, p.usuario, u.nombre, u.apellidos
+from pedido p
+join usuario u on (p.usuario = u.email) order by numPedido;
+select apellidos, nombre, numPedido
+from usuario u
+left join pedido p on (u.email=p.usuario);
+select a.cod, nombre, resolucion, sensor
+from articulo a
+left join camara c on (a.cod=c.cod);
+select a.cod, nombre, pvp, o.*
+from articulo a
+left join objetivo o on (a.cod=o.cod);
+select c.*, a.nombre, a.pvp
+from cesta c
+left join articulo a on (a.cod=c.articulo)
+where fecha like '2010%';
+select c.cod, disponible, entrega, resolucion
+from stock s
+right join camara c on(c.cod=s.articulo);
+select a.cod, nombre, pack
+from articulo a
+left join ptienea p on (p.articulo=a.cod);
+--------------------------------------------------------------
+
+--------------------------------------------------------------
+Dificultad B
+--------------------------------------------------------------
+select numPedido, usuario
+from pedido order by numPedido;
+select numPedido, usuario, apellidos, nombre, l.pueblo
+from pedido p
+join usuario u on (p.usuario=u.email)
+join localidad l on (l.codm=u.pueblo and l.provincia=u.provincia)
+order by apellidos, u.nombre;
+select numPedido, usuario, apellidos, u.nombre, l.pueblo, pro.nombre
+from pedido p
+join usuario u on (p.usuario=u.email)
+join localidad l on (l.codm=u.pueblo and l.provincia=u.provincia)
+join provincia pro on (u.provincia=pro.codp)
+order by apellidos, u.nombre;
+select nombre, pueblo
+from provincia
+join localidad on (provincia=codp)
+where nombre in ('huesca','zaragoza','teruel') and pueblo like 'B%'
+order by nombre, pueblo;
+
+
+--------------------------------------------------------------
+Dificultad C
+--------------------------------------------------------------
+
+
+--------------------------------------------------------------
+
+
+--------------------------------------------------------------
+Examen SQL C
+--------------------------------------------------------------
+1.- (6 puntos)
+Codigo, nombre y pvp de los artículos cuyo pvp está entre 95 y 125 euros, 
+y si han sido solicitadas en algún pedido también el número de pedido y el precio de venta en el mismo.
+
+select cod, nombre, pvp, l.numPedido, l.precio
+from articulo a
+left join linped l on (l.articulo=a.cod)
+where a.pvp between 95 and 125;

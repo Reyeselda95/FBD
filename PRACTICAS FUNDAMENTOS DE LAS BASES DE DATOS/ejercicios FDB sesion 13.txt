@@ -1,0 +1,67 @@
+--------------------------------------------------------------
+Fundamentos de las bases de datos sesión 10
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad A
+--------------------------------------------------------------
+SELECT DATEDIFF(MAX(fecha), MIN(fecha)) dias
+FROM pedido;
+
+SELECT (
+SELECT COUNT(*)
+FROM tv) teles,(
+SELECT COUNT(*)
+FROM camara) camaras,(
+SELECT COUNT(*)
+FROM objetivo) objetivos;
+
+SELECT (
+SELECT COUNT(*)
+FROM tv)/(
+SELECT COUNT(*)
+FROM articulo)*100 teles,(
+SELECT COUNT(*)
+FROM camara)/(
+SELECT COUNT(*)
+FROM articulo)*100 camaras,(
+SELECT COUNT(*)
+FROM objetivo)/(
+SELECT COUNT(*)
+FROM articulo)*100 objetivos;
+
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad B
+--------------------------------------------------------------
+SELECT email, nombre, apellidos, numPedido, cantidad
+FROM usuario
+LEFT JOIN(
+SELECT p.numPedido, p.usuario, SUM(precio*cantidad) cantidad
+FROM pedido p, linped l
+WHERE p.numPedido=l.numPedido
+GROUP BY p.numPedido, p.usuario
+HAVING SUM(precio*cantidad)>10000) calculo ON email=usuario
+WHERE provincia='03'
+ORDER BY cantidad DESC;
+
+
+--------------------------------------------------------------
+--------------------------------------------------------------
+Examen SQL-J
+--------------------------------------------------------------
+-- 1.- (6 puntos)
+-- Máximo precio de venta al público, máximo precio unitario a cobrar de alguna línea de pedidos, y diferencia entre ambos.
+SELECT
+(
+SELECT MAX(pvp)
+FROM articulo), 
+(
+SELECT MAX(precio)
+FROM linped), 
+(
+SELECT MAX(pvp)
+FROM articulo)-(
+SELECT MAX(precio)
+FROM linped);
+
+--------------------------------------------------------------

@@ -1,0 +1,75 @@
+--------------------------------------------------------------
+Fundamentos de las bases de datos sesión 10
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad A
+--------------------------------------------------------------
+SELECT linea, articulo, precio*cantidad
+FROM linped
+WHERE numpedido=1;
+SELECT COUNT(DISTINCT provincia) provincias
+FROM usuario;
+SELECT COUNT(*) usuarios
+FROM usuario;
+SELECT COUNT(pvp) precio_venta
+FROM articulo
+WHERE pvp > 200;
+SELECT SUM(pvp) total
+FROM cesta, articulo
+WHERE articulo=cod AND usuario='bmm@agwab.com';
+SELECT MAX(pantalla) max_pulgadas
+FROM tv;
+SELECT ROUND(AVG(DISTINCT pvp),2)
+FROM articulo;
+SELECT AVG(pvp) media, MAX(pvp) maximo, MIN(pvp)minimo
+FROM articulo;
+SELECT COUNT(articulo) Descatalogados
+FROM stock
+WHERE entrega='Descatalogado';
+SELECT MAX(pvp) Precio_Maximo
+FROM articulo, stock
+WHERE entrega='Proximamente' AND articulo=cod;
+SELECT MAX(precio*cantidad) precio_maximo, MIN(precio*cantidad) precio_minimo, AVG(precio*cantidad)precio_medio
+FROM linped, articulo
+WHERE articulo=cod and nombre='Bravia KDL-32EX402';
+SELECT COUNT(articulo) articulos
+FROM linped, articulo
+WHERE articulo=cod AND nombre LIKE 'UE22%';
+SELECT ROUND(AVG(precio), 3)
+FROM linped
+WHERE numPedido=4;
+SELECT (MAX(precio)- MIN(precio)) diferencia
+FROM linped
+WHERE numPedido=30;
+SELECT MIN(nacido) mas_viejo
+FROM usuario;
+SELECT COUNT(*) total_filas, COUNT(marca) valor_en_marca, COUNT(DISTINCT marca) total_marcas
+FROM articulo;
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad B
+--------------------------------------------------------------
+SELECT nombre, pvp
+FROM articulo, stock
+WHERE articulo=cod AND disponible=(
+SELECT MIN(disponible)
+FROM stock);
+SELECT DISTINCT l.numPedido, p.fecha, u.nombre, u.apellidos
+FROM usuario u, pedido p, linped l
+WHERE l.numPedido=p.numPedido AND p.usuario=u.email AND (cantidad*precio)=(
+SELECT MAX(cantidad*precio)
+FROM linped);
+
+
+--------------------------------------------------------------
+--------------------------------------------------------------
+Examen SQL-G
+--------------------------------------------------------------
+-- 1.- (6 puntos)
+-- ¿Cuántos televisores no tienen tdt?
+SELECT COUNT(tdt) sin_tdt
+FROM tv
+WHERE tdt=0;
+
+
+--------------------------------------------------------------

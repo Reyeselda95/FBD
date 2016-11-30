@@ -1,0 +1,7 @@
+-- Cantidad de pedidos por día del mes (extraer el día de la fecha del pedido) e, 
+-- igualmente, importe total de todos esos pedidos en ese día, ordenado descendentemente por ese importe total.
+SELECT DAY(fecha), MONTH(fecha), COUNT(DISTINCT p.numPedido), SUM(precio*cantidad)
+FROM pedido p, linped l
+WHERE p.numPedido=l.numPedido
+GROUP BY fecha
+ORDER BY SUM(precio*cantidad) DESC;

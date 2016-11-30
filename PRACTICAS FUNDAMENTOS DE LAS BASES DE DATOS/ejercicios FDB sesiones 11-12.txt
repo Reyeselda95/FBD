@@ -1,0 +1,124 @@
+--------------------------------------------------------------
+Fundamentos de las bases de datos sesión 11
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad A
+--------------------------------------------------------------
+SELECT COUNT(sensor) camaras_CMOS
+FROM camara
+WHERE sensor LIKE 'CMOS%';
+
+SELECT COUNT(disponible) sin_stock
+FROM stock
+WHERE disponible=0;
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad B
+--------------------------------------------------------------
+SELECT marca, COUNT(marca) articulos_de_cada_marca
+FROM articulo
+GROUP BY marca;
+
+SELECT c.articulo, COUNT(c.articulo) articulos_polizones
+FROM cesta c, stock s
+WHERE s.articulo=c.articulo AND disponible = 0
+group by c.articulo;
+
+SELECT a.cod, a.nombre, COUNT(l.articulo)
+FROM articulo a
+LEFT JOIN linped l ON a.cod=l.articulo
+GROUP BY a.cod, a.nombre;
+
+SELECT COUNT(cod) no_camara_memoria_objetivo_pack_tv
+FROM articulo
+WHERE cod NOT IN (
+SELECT cod
+FROM camara UNION
+SELECT cod
+FROM memoria UNION
+SELECT cod
+FROM objetivo UNION
+SELECT cod
+FROM pack UNION
+SELECT cod
+FROM tv);
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad C
+--------------------------------------------------------------
+SELECT marca
+FROM articulo
+GROUP BY marca
+HAVING COUNT(marca)<150;
+
+SELECT marca
+FROM articulo
+WHERE marca IS NOT NULL
+GROUP BY marca
+HAVING COUNT(marca)<150;
+
+SELECT u.dni, u.nombre, u.apellidos, u.email
+FROM usuario u, pedido p
+WHERE p.usuario=u.email
+GROUP BY u.dni, u.nombre, u.apellidos, u.email
+HAVING COUNT(p.numPedido)>1
+
+SELECT p.numPedido, p.usuario
+FROM pedido p, linped l
+WHERE l.numPedido=p.numPedido
+GROUP BY p.numPedido, p.usuario
+HAVING SUM(l.cantidad*l.precio)>4000
+
+SELECT p.numPedido, p.usuario
+FROM pedido p, linped l
+WHERE l.numPedido=p.numPedido
+GROUP BY p.numPedido, p.usuario
+HAVING count(l.numPedido)>10
+
+SELECT p.numPedido, p.usuario
+FROM pedido p, linped l
+WHERE l.numPedido=p.numPedido
+GROUP BY p.numPedido, p.usuario
+HAVING count(distinct l.articulo)>4
+
+SELECT l.pueblo, COUNT(l.pueblo)
+FROM localidad l
+GROUP BY l.pueblo
+HAVING COUNT(l.pueblo)>1
+
+SELECT p.codp, p.nombre
+FROM provincia p, localidad l
+WHERE p.codp=l.provincia
+GROUP BY p.codp, p.nombre
+HAVING COUNT(pueblo)>100
+
+SELECT p.usuario, SUM(l.cantidad)
+FROM pedido p, linped l, tv t
+WHERE p.numPedido=l.numPedido AND l.articulo=t.cod
+GROUP BY p.usuario
+HAVING COUNT(l.cantidad)>2
+--------------------------------------------------------------
+--------------------------------------------------------------
+Examen SQL-H
+--------------------------------------------------------------
+-- 1.- (6 puntos)
+-- Cantidad de pedidos por mes e, igualmente, 
+-- importe total de todos esos pedidos en ese mes, ordenado descendentemente por ese importe total.
+SELECT MONTH(p.fecha) mes, COUNT(distinct p.numPedido) pedidos_mes, SUM(l.precio*l.cantidad) precio_mes
+FROM pedido p, linped l
+WHERE l.numPedido=p.numPedido
+GROUP BY MONTH(fecha)
+ORDER BY SUM(l.precio*l.cantidad) DESC
+--------------------------------------------------------------
+--------------------------------------------------------------
+Examen SQL-I
+--------------------------------------------------------------
+-- 1.- (6 puntos)
+-- Nombre de las localidades que tienen registrados 10 o más usuarios.
+SELECT l.pueblo
+FROM localidad l, usuario u
+WHERE u.provincia=l.provincia AND u.pueblo=l.codm
+GROUP BY l.pueblo
+HAVING COUNT(u.email)>10
+
+--------------------------------------------------------------

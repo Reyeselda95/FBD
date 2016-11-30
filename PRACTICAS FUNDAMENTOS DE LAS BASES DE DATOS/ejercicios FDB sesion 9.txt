@@ -1,0 +1,51 @@
+--------------------------------------------------------------
+Fundamentos de las bases de datos sesión 9
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad A
+--------------------------------------------------------------
+select a.nombre from articulo a, tv t
+where t.cod=a.cod and t.panel like '%televisor%CRT%' UNION 
+select a.nombre from articulo a, camara c
+where a.cod=c.cod and c.tipo like '%compacta%visor%electronico%';
+select u.nombre, u.email from usuario u,  provincia p
+where p.nombre like '%Asturias%' and u.provincia=p.codp and u.email not in (select email from direnvio);
+select nombre from articulo a, ptienea p 
+where a.cod=p.articulo;
+select a.cod from articulo a, cesta c, stock s, linped l
+where a.cod=c.articulo and a.cod=s.articulo and l.articulo=a.cod;
+select a.cod from articulo a, cesta c
+where a.cod=c.articulo union
+select a.cod from articulo a, linped l
+where a.cod=l.articulo;
+select distinct u1.apellidos from usuario u1, usuario u2
+where u1.apellidos=u2.apellidos and u1.email<>u2.email;
+SELECT p1.nombre, p2.nombre, l1.pueblo
+FROM localidad l1, localidad l2, provincia p1, provincia p2
+WHERE l1.provincia<>l2.provincia and l1.pueblo=l2.pueblo and l1.provincia=p1.codp and l2.provincia=p2.codp;
+select * from articulo natural join memoria ;
+
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad B
+--------------------------------------------------------------
+
+
+--------------------------------------------------------------
+--------------------------------------------------------------
+Dificultad C
+--------------------------------------------------------------
+
+
+--------------------------------------------------------------
+
+--------------------------------------------------------------
+Examen SQL-F
+--------------------------------------------------------------
+-- 1.- (6 puntos)
+-- Usando concatenación natural,
+-- marcas y pvp de los televisores o de las cámaras, ordenado por marca y pvp,  
+-- eliminando aquellos resultados con pvp mayor que 500. Ordénalo por pvp asdescendente.
+select distinct marca, pvp from articulo natural join camara where pvp <500 order by pvp asc  
+
+--------------------------------------------------------------

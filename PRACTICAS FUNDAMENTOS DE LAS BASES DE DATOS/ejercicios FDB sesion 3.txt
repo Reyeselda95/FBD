@@ -1,0 +1,9 @@
+select dni, email, nombre, apellidos from usuario where usuario.provincia='33';
+select distinct provincia.* from provincia, usuario where usuario.provincia = provincia.codp order by provincia.nombre;
+select u.email from usuario u, provincia p where p.nombre='Murcia' and p.codp = u.provincia and u.telefono is null;
+select * from articulo where marca is null;
+select pack.cod, nombre, pvp from pack, articulo a where pack.cod = a.cod;
+select articulo, nombre , marca from articulo, ptienea where articulo=cod;
+select articulo, nombre, marca, pvp, precio from linped, articulo where numPedido='1';
+select cod, sensor, pantalla from camara where pantalla is not null order by cod desc;
+select articulo, nombre, marca, pvp, precio from linped, articulo, tv where numPedido='1' and articulo.cod=linped.articulo and articulo.cod=tv.cod;
